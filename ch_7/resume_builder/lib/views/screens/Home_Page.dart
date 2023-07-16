@@ -20,6 +20,12 @@ class _HomePageState extends State<HomePage> {
          backgroundColor: First_Blue,
         foregroundColor: Colors.white,
       ),
+      // bottomNavigationBar: Container(
+      //   child: FloatingActionButton(
+      //     onPressed: () => Navigator.of(context).pushNamed(MyRoutes.resumeWorkspace),
+      //     child: Icon(Icons.add,color: First_Blue,size: 38,),
+      //   ),
+      // ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).pushNamed(MyRoutes.resumeWorkspace),
         child: Icon(Icons.add,color: First_Blue,size: 38,),
