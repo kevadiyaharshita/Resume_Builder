@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:resume_builder/globals/Global_class.dart';
 import 'package:resume_builder/utils/Color_utils.dart';
 import 'package:resume_builder/utils/MyRoutes.dart';
 import 'package:resume_builder/views/components/myBackButton.dart';
 import '../components/myAppBar.dart';
+import 'dart:io';
 
 class ContactInfo extends StatefulWidget {
   const ContactInfo({Key? key}) : super(key: key);
@@ -18,6 +20,12 @@ class _ContactInfoState extends State<ContactInfo> {
 
   bool obscure = true;
   RegExp emailRx = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
+
+  TextEditingController name_controller = TextEditingController(text: Global.Name);
+  TextEditingController email_controller = TextEditingController(text: Global.Email);
+  TextEditingController phone_controller = TextEditingController(text: Global.Phone);
+  TextEditingController address_controller = TextEditingController(text: Global.address);
+
 
 
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -89,10 +97,10 @@ class _ContactInfoState extends State<ContactInfo> {
 
                        child: Container(
                          width: double.infinity,
-                         padding: EdgeInsets.all(16),
+                         // padding: EdgeInsets.all(16),
                          decoration: BoxDecoration(
                            color: Colors.white,
-                           border: Border.all(color: Six_Blue),
+                           border: Border.all(color: First_Blue),
                            borderRadius:BorderRadius.circular(8)
                          ),
 
@@ -104,102 +112,43 @@ class _ContactInfoState extends State<ContactInfo> {
                              children: [
 
                                //Name
-                               TextFormField(
+                               Padding(
+                                 padding: EdgeInsets.all(16),
+                                 child: TextFormField(
 
-                                 keyboardType: TextInputType.name,
-                                 textInputAction: TextInputAction.next,
-                                 style: TextStyle(color: First_Blue),
-                                 validator: (val){
-                                   if(val!.isEmpty)
-                                     {
-                                       return "Please Enter Name !!";
-                                     }
-                                   else
-                                     {
-                                       return null;
-                                     }
-                                 },
+                                   keyboardType: TextInputType.name,
+                                   textInputAction: TextInputAction.next,
+                                   style: TextStyle(color: First_Blue),
+                                   // initialValue: Global.Name,
+                                   controller: name_controller,
+                                   validator: (val){
+                                     if(val!.isEmpty)
+                                       {
+                                         return "Please Enter Name !!";
+                                       }
+                                     else
+                                       {
+                                         return null;
+                                       }
+                                   },
 
-                                 decoration: InputDecoration(
-                                   iconColor: First_Blue,
-                                   focusColor: First_Blue,
-                                   hintText: "Enter Name",
-                                   labelText: "Name",
-                                   hintStyle: TextStyle(color: Third_Blue),
-                                   labelStyle: TextStyle(fontSize: 20,color: Third_Blue,),
-                                   prefixIcon: Icon(
-                                     Icons.person,
-                                     color: Third_Blue,
-                                   ),
-                                   focusedBorder: OutlineInputBorder(
-                                     borderRadius: BorderRadius.circular(8),
-                                     borderSide: BorderSide(
-                                       color: First_Blue,
-                                       width: 2,
-                                     )
-                                   ),
-                                   enabledBorder: OutlineInputBorder(
-                                       borderRadius: BorderRadius.circular(8),
-                                       borderSide: BorderSide(
-                                         color: Second_Blue,
-                                       )
-                                   ),
-                                   border: OutlineInputBorder(
-                                     borderRadius: BorderRadius.circular(8),
-                                     borderSide: BorderSide(
-                                       color: Four_Blue
-                                     )
-                                   )
-                                 ),
-                                 onChanged: (val){
-                                    setState(() {
-                                      Global.Name = val;
-                                    });
-                                 },
-                               ),
-                               SizedBox(height: 16,),
-
-                               //Email
-                               TextFormField(
-
-                                 keyboardType: TextInputType.emailAddress,
-
-                                 textInputAction: TextInputAction.next,
-                                 style: TextStyle(color: First_Blue),
-                                 validator: (val){
-                                   if(val!.isEmpty)
-                                   {
-                                     return "Please Enter Email-Address !!";
-
-                                   }
-                                   else if(!emailRx.hasMatch(val))
-                                     {
-                                       return "Please enter valid email !!";
-
-                                     }
-                                   else
-                                   {
-                                     return null;
-
-                                   }
-                                 },
-                                 decoration: InputDecoration(
+                                   decoration: InputDecoration(
                                      iconColor: First_Blue,
                                      focusColor: First_Blue,
-                                     hintText: "Email",
-                                     labelText: "Email",
+                                     hintText: "Enter Name",
+                                     labelText: "Name",
                                      hintStyle: TextStyle(color: Third_Blue),
                                      labelStyle: TextStyle(fontSize: 20,color: Third_Blue,),
                                      prefixIcon: Icon(
-                                       Icons.email_rounded,
+                                       Icons.person,
                                        color: Third_Blue,
                                      ),
                                      focusedBorder: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(8),
-                                         borderSide: BorderSide(
-                                           color: First_Blue,
-                                           width: 2,
-                                         )
+                                       borderRadius: BorderRadius.circular(8),
+                                       borderSide: BorderSide(
+                                         color: First_Blue,
+                                         width: 2,
+                                       )
                                      ),
                                      enabledBorder: OutlineInputBorder(
                                          borderRadius: BorderRadius.circular(8),
@@ -208,145 +157,312 @@ class _ContactInfoState extends State<ContactInfo> {
                                          )
                                      ),
                                      border: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(8),
-                                         borderSide: BorderSide(
-                                             color: Four_Blue
-                                         )
+                                       borderRadius: BorderRadius.circular(8),
+                                       borderSide: BorderSide(
+                                         color: Four_Blue
+                                       )
                                      )
+                                   ),
+                                   onChanged: (val){
+                                      setState(() {
+                                        Global.Name = val;
+                                      });
+                                   },
                                  ),
-                                 onChanged: (val){
-                                   setState(() {
-                                     Global.Email = val;
-                                   });
-                                 },
+                               ),
+                               SizedBox(height: 16,),
+
+                               //Email
+                               Padding(
+                                 padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                 child: TextFormField(
+
+                                   keyboardType: TextInputType.emailAddress,
+
+                                   textInputAction: TextInputAction.next,
+                                   style: TextStyle(color: First_Blue),
+                                   // initialValue: Global.Email,
+                                   controller: email_controller,
+                                   validator: (val){
+                                     if(val!.isEmpty)
+                                     {
+                                       return "Please Enter Email-Address !!";
+
+                                     }
+                                     else if(!emailRx.hasMatch(val))
+                                       {
+                                         return "Please enter valid email !!";
+
+                                       }
+                                     else
+                                     {
+                                       return null;
+
+                                     }
+                                   },
+                                   decoration: InputDecoration(
+                                       iconColor: First_Blue,
+                                       focusColor: First_Blue,
+                                       hintText: "Email",
+                                       labelText: "Email",
+                                       hintStyle: TextStyle(color: Third_Blue),
+                                       labelStyle: TextStyle(fontSize: 20,color: Third_Blue,),
+                                       prefixIcon: Icon(
+                                         Icons.email_rounded,
+                                         color: Third_Blue,
+                                       ),
+                                       focusedBorder: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                             color: First_Blue,
+                                             width: 2,
+                                           )
+                                       ),
+                                       enabledBorder: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                             color: Second_Blue,
+                                           )
+                                       ),
+                                       border: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                               color: Four_Blue
+                                           )
+                                       )
+                                   ),
+                                   onChanged: (val){
+                                     setState(() {
+                                       Global.Email = val;
+                                     });
+                                   },
+                                 ),
                                ),
 
                                SizedBox(height: 16,),
 
                                //Phone
-                               TextFormField(
-                                 style: TextStyle(color: First_Blue),
-                                 keyboardType: TextInputType.phone,
+                               Padding(
+                                 padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                 child: TextFormField(
+                                   style: TextStyle(color: First_Blue),
+                                   keyboardType: TextInputType.phone,
 
-                                 textInputAction: TextInputAction.next,
-                                 // maxLength: 10,
-                                 inputFormatters: [
-                                   FilteringTextInputFormatter.digitsOnly,
-                                 ],
-                                 validator: (val){
-                                   if(val!.isEmpty)
-                                   {
-                                     return "Please Enter Phone Number !!";
-                                   }
-                                   else if(val.length < 10)
+                                   // initialValue: Global.Phone,
+                                   controller: phone_controller,
+                                   textInputAction: TextInputAction.next,
+                                   // maxLength: 10,
+                                   inputFormatters: [
+                                     FilteringTextInputFormatter.digitsOnly,
+                                   ],
+                                   validator: (val){
+                                     if(val!.isEmpty)
                                      {
-                                       return "Number Must Be Of 10 Digits !!";
+                                       return "Please Enter Phone Number !!";
                                      }
-                                   else
-                                   {
-                                     return null;
-                                   }
-                                 },
-                                 decoration: InputDecoration(
-                                     iconColor: First_Blue,
+                                     else if(val.length < 10)
+                                       {
+                                         return "Number Must Be Of 10 Digits !!";
+                                       }
+                                     else
+                                     {
+                                       return null;
+                                     }
+                                   },
+                                   decoration: InputDecoration(
+                                       iconColor: First_Blue,
 
-                                     focusColor: First_Blue,
-                                     hintText: "Phone",
-                                     labelText: "Phone",
-                                     hintStyle: TextStyle(color: Third_Blue),
-                                     labelStyle: TextStyle(fontSize: 20,color: Third_Blue,),
-                                     prefixIcon: Icon(
-                                       Icons.phone,
-                                       color: Third_Blue,
-                                     ),
-                                     prefixText: "+91 ",
-                                     focusedBorder: OutlineInputBorder(
+                                       focusColor: First_Blue,
+                                       hintText: "Phone",
+                                       labelText: "Phone",
+                                       hintStyle: TextStyle(color: Third_Blue),
+                                       labelStyle: TextStyle(fontSize: 20,color: Third_Blue,),
+                                       prefixIcon: Icon(
+                                         Icons.phone,
+                                         color: Third_Blue,
+                                       ),
+                                       prefixText: "+91 ",
+                                       focusedBorder: OutlineInputBorder(
 
-                                         borderRadius: BorderRadius.circular(8),
-                                         borderSide: BorderSide(
-                                           color: First_Blue,
-                                           width: 2,
-                                         )
-                                     ),
-                                     enabledBorder: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(8),
-                                         borderSide: BorderSide(
-                                           color: Second_Blue,
-                                         )
-                                     ),
-                                     border: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(8),
-                                         borderSide: BorderSide(
-                                             color: Four_Blue
-                                         )
-                                     )
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                             color: First_Blue,
+                                             width: 2,
+                                           )
+                                       ),
+                                       enabledBorder: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                             color: Second_Blue,
+                                           )
+                                       ),
+                                       border: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                               color: Four_Blue
+                                           )
+                                       )
+                                   ),
+                                   onChanged: (val){
+                                     setState(() {
+                                       // phone = val;
+                                       Global.Phone = val;
+                                     });
+                                   },
                                  ),
-                                 onChanged: (val){
-                                   setState(() {
-                                     // phone = val;
-                                     Global.Phone = val;
-                                   });
-                                 },
                                ),
 
                                SizedBox(height: 16,),
 
                                //Address
-                               TextFormField(
-                                 maxLines: 3,
-                                 // textAlign: TextAlign.start,
+                               Padding(
+                                 padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                 child: TextFormField(
+                                   maxLines: 3,
+                                   // textAlign: TextAlign.start,
 
-                                 style: TextStyle(color: First_Blue),
-                                 keyboardType: TextInputType.streetAddress,
-                                 textInputAction: TextInputAction.newline,
-                                 validator: (val){
-                                   if(val!.isEmpty)
-                                   {
-                                     return "Please Enter Address !!";
-                                   }
-                                   else
-                                   {
-                                     return null;
-                                   }
-                                 },
-                                 decoration: InputDecoration(
-                                     iconColor: First_Blue,
-                                     focusColor: First_Blue,
-                                     hintText: "Address",
-                                     labelText: "Address",
-                                     hintStyle: TextStyle(color: Third_Blue),
-                                     labelStyle: TextStyle(fontSize: 20,color: Third_Blue,),
-                                     prefixIcon: Icon(
-                                       Icons.location_on,
-                                       color: Third_Blue,
-                                     ),
-                                     focusedBorder: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(8),
-                                         borderSide: BorderSide(
-                                           color: First_Blue,
-                                           width: 2,
-                                         )
-                                     ),
-                                     enabledBorder: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(8),
-                                         borderSide: BorderSide(
-                                           color: Second_Blue,
-                                         )
-                                     ),
-                                     border: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(8),
-                                         borderSide: BorderSide(
-                                             color: Four_Blue
-                                         )
-                                     )
+                                   style: TextStyle(color: First_Blue),
+                                   keyboardType: TextInputType.streetAddress,
+                                   textInputAction: TextInputAction.newline,
+                                   // initialValue: Global.address,
+                                   controller: address_controller,
+                                   validator: (val){
+                                     if(val!.isEmpty)
+                                     {
+                                       return "Please Enter Address !!";
+                                     }
+                                     else
+                                     {
+                                       return null;
+                                     }
+                                   },
+                                   decoration: InputDecoration(
+                                       iconColor: First_Blue,
+                                       focusColor: First_Blue,
+                                       hintText: "Address",
+                                       labelText: "Address",
+                                       hintStyle: TextStyle(color: Third_Blue),
+                                       labelStyle: TextStyle(fontSize: 20,color: Third_Blue,),
+                                       prefixIcon: Icon(
+                                         Icons.location_on,
+                                         color: Third_Blue,
+                                       ),
+                                       focusedBorder: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                             color: First_Blue,
+                                             width: 2,
+                                           )
+                                       ),
+                                       enabledBorder: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                             color: Second_Blue,
+                                           )
+                                       ),
+                                       border: OutlineInputBorder(
+                                           borderRadius: BorderRadius.circular(8),
+                                           borderSide: BorderSide(
+                                               color: Four_Blue
+                                           )
+                                       )
+                                   ),
+                                   onChanged: (val){
+                                     setState(() {
+                                      Global.address = val;
+                                     });
+                                   },
                                  ),
-                                 onChanged: (val){
-                                   setState(() {
-                                    Global.address = val;
-                                   });
-                                 },
                                ),
                                SizedBox(height: 16,),
+
+                               Container(
+                                 height: 35,
+                                 width: double.infinity,
+                                 // padding: EdgeInsets.fromLTRB(0,0,0,0),
+                                 decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.vertical(
+                                       bottom: Radius.circular(7)),
+                                   color: First_Blue,
+                                 ),
+                                 child: Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                   children: [
+                                     TextButton(onPressed: (){
+                                       setState(() {
+                                         formkey.currentState!.reset();
+
+                                         Global.address = Global.Phone = Global.Email =Global.Name = null;
+
+                                         name_controller.clear();
+                                         email_controller.clear();
+                                         phone_controller.clear();
+                                         address_controller.clear();
+                                       });
+                                     },
+                                         child: Text("Clear", style: TextStyle(
+                                             color: Colors.white,
+                                             fontSize: 18,
+                                             fontWeight: FontWeight.bold),)
+                                     ),
+                                     Spacer(),
+                                     TextButton(onPressed: (){
+                                       bool validated = formkey.currentState!.validate();
+                                       setState(() {
+                                         if(validated){
+                                           formkey.currentState!.save();
+                                           ScaffoldMessenger.of(context).showSnackBar(
+                                             SnackBar(
+                                                 content: Text("Successfully Saved!!",style: TextStyle(color: First_Blue),),
+                                                 backgroundColor:Six_Blue,
+                                                 behavior: SnackBarBehavior.floating,
+                                                 duration: Duration(seconds: 2),
+                                               shape: RoundedRectangleBorder(
+                                                 borderRadius: BorderRadius.circular(20),
+                                               ),
+                                               margin: EdgeInsets.all(10),
+                                               dismissDirection: DismissDirection.horizontal,
+                                               // action: SnackBarAction(
+                                               //   label: "ok",
+                                               //   onPressed: (){},
+                                               // ),
+
+                                             ),
+                                           );
+                                         }
+                                         else
+                                           {
+                                             ScaffoldMessenger.of(context).showSnackBar(
+                                               SnackBar(
+                                                 content: Text("Failed to Saved!!",style: TextStyle(color: First_Blue)),
+                                                 backgroundColor:Six_Blue,
+                                                 behavior: SnackBarBehavior.floating,
+                                                 duration: Duration(seconds: 2),
+                                                 shape: RoundedRectangleBorder(
+                                                   borderRadius: BorderRadius.circular(20),
+                                                 ),
+                                                 margin: EdgeInsets.all(10),
+                                                 dismissDirection: DismissDirection.horizontal,
+                                                 // action: SnackBarAction(
+                                                 //   label: "ok",
+                                                 //   onPressed: (){},
+                                                 // ),
+
+                                               ),
+                                             );
+                                           }
+                                       });
+
+                                     },
+                                         child: Text("Save", style: TextStyle(
+                                             color: Colors.white,
+                                             fontSize: 18,
+                                             fontWeight: FontWeight.bold),)
+                                     ),
+
+                                   ],
+                                 ),
+                               )
                              ],
                            ),
                          ),
@@ -360,7 +476,7 @@ class _ContactInfoState extends State<ContactInfo> {
                          decoration: BoxDecoration(
                            color: Colors.white,
                            borderRadius: BorderRadius.circular(8),
-                           border: Border.all(color: Six_Blue,width: 1),
+                           border: Border.all(color: First_Blue,width: 1),
                            // boxShadow: [
                            //   BoxShadow(
                            //     color: Colors.grey,
@@ -398,6 +514,12 @@ class _ContactInfoState extends State<ContactInfo> {
                                        color: Five_Blue,
                                        shape: BoxShape.circle,
                                        // border: Border.all(color: Five_Blue),
+                                       image:(Global.image != null)?DecorationImage(
+                                         image: FileImage(Global.image!),
+                                         fit: BoxFit.cover
+                                       ):DecorationImage(image: NetworkImage('https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_1280.png'),fit: BoxFit.cover),
+
+
                                        boxShadow: [
                                          BoxShadow(
                                              color: First_Blue,
@@ -407,14 +529,57 @@ class _ContactInfoState extends State<ContactInfo> {
 
                                      ),
                                      alignment: Alignment.center,
-                                     child: IconButton(
-                                       onPressed: (){
-                                       },
-                                       icon: Icon(Icons.person_3_rounded,size: 120,color: Four_Blue,),
-                                     ),
+
                                    ),
                                    TextButton(
-                                     onPressed: (){},
+                                     onPressed: (){
+
+                                       ImagePicker picker = ImagePicker();
+                                       XFile? file;
+
+                                       showDialog(context: context, builder: (context) => AlertDialog(
+
+                                         title: Text("Pick Image"),
+                                         // backgroundColor: Six_Blue,
+
+                                         content: Text("Choose the sourse for your image"),
+                                         actions: [
+
+                                           ElevatedButton(
+
+
+                                             onPressed: () async {
+                                               file = await picker.pickImage(source: ImageSource.camera);
+
+                                               if(file != null){
+                                                 setState(() {
+                                                   Global.image = File(file!.path);
+                                                 });
+                                               }
+
+                                               Navigator.of(context).pop();
+                                             },
+                                             child: Text("Camera",),
+                                           ),
+
+                                           ElevatedButton(
+                                             onPressed: () async {
+                                               file = await picker.pickImage(source: ImageSource.gallery);
+
+                                               if(file != null){
+                                                 setState(() {
+                                                   Global.image = File(file!.path);
+                                                 });
+                                               }
+
+                                               Navigator.of(context).pop();
+                                             },
+                                             child: Text("Gallary"),
+                                           ),
+                                         ],
+                                       ));
+
+                                     },
                                      child: Text("Select Photo",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: First_Blue,
                                          decoration: TextDecoration.underline,letterSpacing: 1
                                      ),
@@ -425,7 +590,9 @@ class _ContactInfoState extends State<ContactInfo> {
                              ),
                              IconButton(
                                onPressed: (){
-
+                                 setState(() {
+                                   Global.image = null;
+                                 });
                                },
                                icon: Icon(Icons.delete,size: 30,color: First_Blue,),
                              ),

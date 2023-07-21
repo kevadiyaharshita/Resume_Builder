@@ -21,9 +21,36 @@ class _ResumeWorkspaceState extends State<ResumeWorkspace> {
 
    contact_info_count();
    career_objective_count();
+   Personal_detail_count();
+   education_count();
+   reference_count();
+   Declaration_count();
+   experience_count();
+   technival_skills_count();
+   achievements_count();
+   interest_hobbies_count();
+   project_count();
 
     return Scaffold(
-      appBar:  myAppBar(context,"Resume Workspace"),
+      appBar:  AppBar(
+        title: Text("Resume Workspace"),
+        centerTitle: true,
+        leading: myBackButton(context: context),
+        backgroundColor: First_Blue,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        actions: [
+
+          IconButton(
+            onPressed: (){
+
+              Navigator.of(context).pushNamed(MyRoutes.PDFScreen);
+            },
+            icon: Icon(Icons.picture_as_pdf),
+          ),
+          SizedBox(width: 10,),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
         child: Center(
@@ -33,6 +60,7 @@ class _ResumeWorkspaceState extends State<ResumeWorkspace> {
 
               children: MyRoutes.buildOptions.map((e) => GestureDetector(
                 onTap: (){
+
                   Navigator.of(context).pushNamed(e['name']).then((value) => setState(() {}));
                 },
                 child: Container(

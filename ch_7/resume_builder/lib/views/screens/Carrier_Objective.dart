@@ -55,6 +55,7 @@ class _CarrierObjectiveState extends State<CarrierObjective> {
                            textInputAction: TextInputAction.next,
                            autovalidateMode: AutovalidateMode.onUserInteraction,
                            style: TextStyle(color: First_Blue),
+                           initialValue: Global.career_objective_discription,
                            validator: (val){
                              if(val!.isEmpty)
                              {
@@ -133,6 +134,7 @@ class _CarrierObjectiveState extends State<CarrierObjective> {
                            textInputAction: TextInputAction.next,
                            autovalidateMode: AutovalidateMode.onUserInteraction,
                            style: TextStyle(color: First_Blue),
+                           initialValue: Global.current_designation,
                            validator: (val){
                              if(val!.isEmpty)
                              {

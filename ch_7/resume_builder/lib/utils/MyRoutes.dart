@@ -4,6 +4,7 @@ class MyRoutes{
   static String home = '/';
   static String resumeWorkspace = 'resume_workspace';
   static String SplashScreen = 'Splash_Screen';
+  static String PDFScreen = 'PDF_Screen';
   static String iconPath = "assets/icons/";
 
   static List<Map< String, dynamic >> buildOptions = [
@@ -26,14 +27,14 @@ class MyRoutes{
       'title': 'Personal Details',
       'icon': '${iconPath}account.png',
       'info_val': 0,
-      'total_field': 1,
+      'total_field': 4,
     },
     {
       'name': 'education',
       'title': 'Education',
       'icon': '${iconPath}graduation-cap.png',
       'info_val': 0,
-      'total_field': 1,
+      'total_field': 2,
     },
     {
       'name': 'experiences',
@@ -47,28 +48,28 @@ class MyRoutes{
       'title': 'Technical Skills',
       'icon': '${iconPath}certificate.png',
       'info_val': 0,
-      'total_field': 1,
+      'total_field': 4,
     },
     {
       'name': 'interest/hobbies',
       'title': 'Interest/Hobbies',
       'icon': '${iconPath}open-book.png',
       'info_val': 0,
-      'total_field': 1,
+      'total_field': 2,
     },
     {
       'name': 'projects',
       'title': 'Projects',
       'icon': '${iconPath}project-management.png',
       'info_val': 0,
-      'total_field': 1,
+      'total_field': 2,
     },
     {
       'name': 'achievements',
       'title': 'Achievements',
       'icon': '${iconPath}experience.png',
       'info_val': 0,
-      'total_field': 1,
+      'total_field': 2,
     },
     {
       'name': 'references',
@@ -82,7 +83,7 @@ class MyRoutes{
       'title': 'Declaration',
       'icon': '${iconPath}declaration.png',
       'info_val': 0,
-      'total_field': 1,
+      'total_field': 3,
     },
 
   ];
