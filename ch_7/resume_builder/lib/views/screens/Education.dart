@@ -125,7 +125,8 @@ class _EducationState extends State<Education> {
                                             content: Text("Succesfully Deleted.."),
                                             backgroundColor: First_Blue,
                                             behavior: SnackBarBehavior.floating,
-                                            duration: Duration(seconds: 1),
+                                            duration: Duration(seconds: 1
+                                            ),
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(20),
                                             ),

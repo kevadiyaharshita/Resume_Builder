@@ -383,7 +383,7 @@ class _ExperiencesState extends State<Experiences> {
                                           child: SizedBox(
                                             width: 150,
                                             child: TextFormField(
-                                              keyboardType: TextInputType.number,
+                                              keyboardType: TextInputType.name,
                                               textInputAction: TextInputAction.next,
                                               controller: Global.experience_startingdate[index],
                                               style: TextStyle(color: First_Blue),
@@ -424,7 +424,7 @@ class _ExperiencesState extends State<Experiences> {
                                           child: SizedBox(
                                             width: 150,
                                             child: TextFormField(
-                                              keyboardType: TextInputType.number,
+                                              keyboardType: TextInputType.name,
                                               textInputAction: TextInputAction.next,
                                               controller: Global.experience_endingdate[index],
                                               readOnly: Global.experience_current_working[index],
