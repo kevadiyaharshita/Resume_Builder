@@ -26,8 +26,6 @@ class _ContactInfoState extends State<ContactInfo> {
   TextEditingController phone_controller = TextEditingController(text: Global.Phone);
   TextEditingController address_controller = TextEditingController(text: Global.address);
 
-
-
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   @override
